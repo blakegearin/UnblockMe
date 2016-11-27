@@ -43,7 +43,8 @@ class InformedSearch(Search):
             current = self.q.dequeue()
             self.expansions += 1
             # Checks if the target block is in the exit
-            if current.blockList[0].getCoords = 2,6:
+            x,y = current.blockList[0].getCoords
+            if x == 2 and y == 6:
                 return current
             else:
                 successors = current.state.applyOperators()
