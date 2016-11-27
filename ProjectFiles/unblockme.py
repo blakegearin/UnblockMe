@@ -97,7 +97,7 @@ for row in probState:
                     newBlock = Block(checkBlock, row, column, 3, "v")
                 else:
                     newBlock = Block(checkBlock, row, column, 2, "v")
-            blockCount++
+            blockCount += 1
             blockList.append(newBlock)
                     
 # Initiates the informed search towards the goal state
