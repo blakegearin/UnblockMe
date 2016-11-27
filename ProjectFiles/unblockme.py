@@ -28,6 +28,17 @@ class UnblockState(InformedProblemState):
         Required method for use with the Search class.
         Tests whether the state is illegal.
         """
+        ## First checks for integer value
+        if type(self.blockList) is int: return 1
+        ## Then checks for 6 rows
+        if len(self.blockList) > 6: return 1
+        for row in self.blockList:
+            ## Then checks that each row has 6 columns
+            if len(self.blockList[row]) > 6: return 1
+            for row_slot in self.blockList[row]:
+                ## 17 blocks is the maximum number of blocks that can be on the board
+                if block < 0 or block > 17: return 1
+        return 0
     def equals(self, state):
         """
         Required method for use with the Search class.
