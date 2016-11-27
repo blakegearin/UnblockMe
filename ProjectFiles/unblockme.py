@@ -36,8 +36,8 @@ class UnblockState(InformedProblemState):
             ## Then checks that each row has 6 columns
             if len(self.blockList[row]) > 6: return 1
             for row_slot in self.blockList[row]:
-                ## 17 blocks is the maximum number of blocks that can be on the board
-                if block < 0 or block > 17: return 1
+                ## 18 blocks is the maximum number of blocks that can be on the board
+                if block < 0 or block > 18: return 1
         return 0
     def equals(self, state):
         """
