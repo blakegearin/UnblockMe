@@ -35,7 +35,7 @@ class UnblockState(InformedProblemState):
         for row in self.blockList:
             ## Then checks that each row has 6 columns
             if len(self.blockList[row]) > 6: return 1
-            for row_slot in self.blockList[row]:
+            for column in self.blockList[row]:
                 ## 18 blocks is the maximum number of blocks that can be on the board
                 if block < 0 or block > 18: return 1
         return 0
@@ -45,6 +45,7 @@ class UnblockState(InformedProblemState):
         Determines whether the state instance and the given
         state are equal.
         """
+        return self.blockList == state.blockList
     def moveUp(self):
         """
         """
@@ -54,7 +55,6 @@ class UnblockState(InformedProblemState):
     def moveLeft(self):
         """
         """
-
     def moveRight(self):
         """
         """
@@ -113,10 +113,5 @@ for row in probState:
                     
 # Initiates the informed search towards the goal state
 # GOAL STATE NEEDS FIXING
-InformedSearch(UnblockState(tileList), UnblockState([[0,0,0,0,0,0],
-                                                     [0,0,0,0,0,0],
-                                                     [0,0,0,0,0,0],
-                                                     [0,0,0,0,0,0],
-                                                     [0,0,0,0,0,0],
-                                                     [0,0,0,0,0,0]]))
+InformedSearch(UnblockState(tileList))
 

@@ -26,12 +26,12 @@ class InformedSearch(Search):
     class.  The problem domain should be based on the
     InformedProblemState class.  
     """
-    def __init__(self, initialState, goalState):
+    def __init__(self, initialState """, goalState"""):
         self.expansions = 0
         self.clearVisitedStates()
         self.q = PriorityQueue()
         self.goalState = goalState
-        self.q.enqueue(InformedNode(goalState, initialState, None, None, 0))
+        self.q.enqueue(InformedNode("""goalState,""" initialState, None, None, 0))
         solution = self.execute()
         if solution == None:
             print("Search failed")
