@@ -113,5 +113,5 @@ for row in probState:
                     
 # Initiates the informed search towards the goal state
 # GOAL STATE NEEDS FIXING
-InformedSearch(UnblockState(tileList))
+InformedSearch(UnblockState(blockList))
 
