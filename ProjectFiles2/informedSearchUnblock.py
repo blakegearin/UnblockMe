@@ -1,10 +1,5 @@
-### Name: Blake Buthod, Ethan Brizendine, Thomas Goodman, & George Wood
-### Date: 12-9-2016
-### File informedSearchUpdated.py
-### Implements the informed search for the unblock me puzzle
-
 from pq import *
-from searchUnblock import *
+from search import *
 
 class InformedNode(Node):
     """
@@ -12,8 +7,9 @@ class InformedNode(Node):
     added a new method to be used in conjunction with a priority
     queue.
     """
-    def __init__(self, state, parent, depth):
-        Node.__init__(self, state, parent, depth)
+    def __init__(self, goal, state, parent, operator, depth):
+        Node.__init__(self, state, parent, operator, depth)
+        self.goal = goal
     def priority(self):
         """
         Needed to determine where the node should be placed in the
@@ -21,22 +17,21 @@ class InformedNode(Node):
         well as the estimate of the distance from the current state to
         the goal state.
         """
-        return self.depth + self.state.heuristic()
+        return self.depth + self.state.heuristic(self.goal)
 
-class InformedSearchUnblock(Search):
+class InformedSearch(Search):
     """
     A general informed search class that uses a priority queue and
     traverses a search tree containing instances of the InformedNode
     class.  The problem domain should be based on the
     InformedProblemState class.  
     """
-
-    
-    def __init__(self, initialState):
+    def __init__(self, initialState, goalState):
         self.expansions = 0
         self.clearVisitedStates()
         self.q = PriorityQueue()
-        self.q.enqueue(InformedNode(initialState, None, 0))
+        self.goalState = goalState
+        self.q.enqueue(InformedNode(goalState, initialState, None, None, 0))
         solution = self.execute()
         if solution == None:
             print("Search failed")
@@ -47,22 +42,19 @@ class InformedSearchUnblock(Search):
         while not self.q.empty():
             current = self.q.dequeue()
             self.expansions += 1
-            
             # Checks if the target block is in the exit
-            currentState = current.state
-            print(currentState.targetInd)
-            targetBlock = currentState.blockList[currentState.targetInd]
-            coordList = targetBlock.getCoords()
-            if ((targetBlock.getNum == 1)
-                and ((2,6) in coordList) and ((2,7) in coordList)):
+            x,y = current.blockList[0].getCoords
+            if x == 2 and y == 6:
                 return current
-            # Goal state not reached, push new nodes to pq
             else:
                 successors = current.state.applyOperators()
+                operators = current.state.operatorNames()
                 for i in range(len(successors)):
                     if not successors[i].illegal():
-                        n = InformedNode(successors[i],
+                        n = InformedNode(self.goalState,
+                                         successors[i],
                                          current,
+                                         operators[i],
                                          current.depth+1)
                         if n.repeatedState():
                             del(n)
@@ -81,3 +73,4 @@ class InformedProblemState(ProblemState):
         cost of reaching the goal from this state.
         """
         abstract()
+
