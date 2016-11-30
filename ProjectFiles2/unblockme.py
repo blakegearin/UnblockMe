@@ -5,6 +5,7 @@
 
 from informedSearchUnblock import *
 from block import *
+from copy import *
 
 class UnblockState(InformedProblemState):
     """
@@ -30,8 +31,6 @@ class UnblockState(InformedProblemState):
         """
         Checks if this current state is illegal in the context of the puzzle
         """
-
-        
         # A list that holds coordinates that have been encountered
         occupiedSpaces = []
 
@@ -117,11 +116,11 @@ class UnblockState(InformedProblemState):
         """
         possibleStates = []
         
-        for block in blockList:
+        for block in self.blockList:
             for n in range(-self.boardSize, self.boardSize, 1):
-                tempBlockList = blockList
+                tempBlockList = deepcopy(self.blockList)
                 block.possibleMove(n, tempBlockList)
-                possibleStates.append(tempBlockList)
+                possibleStates.append(UnblockState(tempBlockList))
 
         return possibleStates
 
@@ -193,3 +192,5 @@ for row in range(probSize):
                  
 # Initiates the informed search towards the goal state
 InformedSearchUnblock(UnblockState(blockList))
+
+
