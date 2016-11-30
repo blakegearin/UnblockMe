@@ -50,9 +50,10 @@ class InformedSearchUnblock(Search):
             
             # Checks if the target block is in the exit
             currentState = current.state
+            print(currentState.targetInd)
             targetBlock = currentState.blockList[currentState.targetInd]
             coordList = targetBlock.getCoords()
-            if ((targetBlock.getNum == UnblockState.targetBlock)
+            if ((targetBlock.getNum == 1)
                 and ((2,6) in coordList) and ((2,7) in coordList)):
                 return current
             # Goal state not reached, push new nodes to pq
