@@ -29,6 +29,10 @@ class Block:
         """
         Returns a string representation of the block.
         """
+    def __deepcopy__(self):
+        return Block(self.blockNum, self.x, self,y,
+                     self.size, self.orientation)
+        
     def possibleMove(self, dist, blockList):
         """
         Moves the block by an input distance in the plane of the
@@ -98,6 +102,3 @@ class Block:
         Returns the orientation of the block.
         """
         return self.orientation
-
-    
-        
