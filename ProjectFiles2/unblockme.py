@@ -5,7 +5,7 @@
 
 from informedSearchUnblock import *
 from block import *
-from copy import *
+from display import *
 
 class UnblockState(InformedProblemState):
     """
@@ -31,6 +31,8 @@ class UnblockState(InformedProblemState):
         """
         Checks if this current state is illegal in the context of the puzzle
         """
+
+        
         # A list that holds coordinates that have been encountered
         occupiedSpaces = []
 
@@ -116,11 +118,11 @@ class UnblockState(InformedProblemState):
         """
         possibleStates = []
         
-        for block in self.blockList:
-            for n in range(-self.boardSize, self.boardSize, 1):
-                tempBlockList = deepcopy(self.blockList)
+        for block in blockList:
+            for n in range(-boardSize, boardSize, 1):
+                tempBlockList = blockList
                 block.possibleMove(n, tempBlockList)
-                possibleStates.append(UnblockState(tempBlockList))
+                possibleStates.append(tempBlockList)
 
         return possibleStates
 
@@ -130,7 +132,7 @@ with open("unblockState.txt") as textFile:
 
 blockCount = 0
 blockList = []
-foundBlocks= []
+foundBlocks = []
 probSize = len(probState)
 
 """
@@ -145,13 +147,35 @@ for n in range(probSize):
 # Takes the input problem state and creates a list of block objects from it
 for row in range(probSize):
     for column in range(probSize):
-        isHorizontal = 0
-        newBlock = Block
+        size = 2 #Smallest size is 2, if larger is found we'll update that value
+        #Get the current number at the space being checked
         checkBlock = int(probState[row][column])
+        #Make sure the space is a block that isn't already found
+        if checkBlock != 0 and checkBlock not in foundBlocks:
+             #Check for horizontal
+            if column + 1 < probSize and int(probState[row][column + 1]) == checkBlock:
+                #Check if the block is 3 long
+                if column + 2 < probSize and int(probState[row][column + 2]) == checkBlock:
+                    size = 3
+                blockList.append(Block(checkBlock,row,column,size,"h"))
+                foundBlocks.append(checkBlock)
+            #The block is not horizontal, so check for vertical
+            elif row + 1 < probSize and int(probState[row + 1][column]) == checkBlock:
+                if row + 2 < probSize and int(probState[row + 2][column]) == checkBlock:
+                    size = 3
+                blockList.append(Block(checkBlock,row,column,size,"v"))
+                foundBlocks.append(checkBlock)   
+            else:
+                print("Something went wrong.")
+                
+            #Check for the red block
+            if checkBlock == 1:
+                UnblockState.targetInd = len(blockList) - 1
+
+"""    
         # Checks if the current space is nonempty and, if so, if the
         # encountered block has not already been added to the list.
         if checkBlock != 0 and checkBlock not in foundBlocks:
-            foundBlocks.append(checkBlock)
             # Checks if the new block is horizontal or vertical,
             # then if it is two or three spaces long, and finally
             # adds it to the list of blocks.
@@ -159,38 +183,42 @@ for row in range(probSize):
             if (column + 1 < probSize):
                 # Checks if block is 2 or 3 units long
                 if int(probState[row][column + 1]) == checkBlock:
-                    if ((column + 2 < probSize) and
-                        int(probState[row][column + 2]) == checkBlock):
-                        newBlock = Block(checkBlock, row, column, 3, "h")
-                        isHorizontal = 1
-                        blockList.append(newBlock)
-                        print("h, 3 " + str(checkBlock))
+                    if (column + 2 < probSize):
+                        if int(probState[row][column + 2]) == checkBlock:
+                            newBlock = Block(checkBlock, row, column, 3, "h")
+                            isHorizontal = 1
+                            blockList.append(newBlock)
+                            foundBlocks.append(checkBlock)
                     else:
-
                         newBlock = Block(checkBlock, row, column, 2, "h")
-                        # If block is the target block, its index is recorded
-                        if checkBlock == 1:
-                            UnblockState.targetInd = blockCount
                         isHorizontal = 1
                         blockList.append(newBlock)
-                        print("h, 2 " + str(checkBlock))
+                        foundBlocks.append(checkBlock)
             # Only checks for vertical if it is found to not be horizontal
             if (row + 1 < probSize) and (isHorizontal == 0):
                 # Checks if block is 2 or 3 units long
                 if int(probState[row + 1][column]) == checkBlock:
-                    if ((row + 2 < probSize) and
-                        int(probState[row + 2][column]) == checkBlock):
-                        newBlock = Block(checkBlock, row, column, 3, "v")
-                        blockList.append(newBlock)
-                        print("v, 3 " + str(checkBlock))
+                    if (row + 2 < probSize):
+                        if int(probState[row + 2][column]) == checkBlock:
+                            newBlock = Block(checkBlock, row, column, 3, "v")
+                            blockList.append(newBlock)
+                            foundBlocks.append(checkBlock)
                     else:
                         newBlock = Block(checkBlock, row, column, 2, "v")
                         blockList.append(newBlock)
-                        print("v, 2 " + str(checkBlock))
+                        foundBlocks.append(checkBlock)
+                        blockCount += 1
 
-            blockCount += 1
-                 
+        # Target block found, index recorded             
+        elif checkBlock == 1:
+            print("test")
+            UnblockState.targetInd = blockCount
+            foundBlocks.append(checkBlock)
+            blockCount += 1     
+    """
+
+display = Display(blockList)
+display.drawBlocks()
+                    
 # Initiates the informed search towards the goal state
-InformedSearchUnblock(UnblockState(blockList))
-
-
+#InformedSearchUnblock(UnblockState(blockList))
