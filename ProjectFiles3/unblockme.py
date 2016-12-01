@@ -32,6 +32,7 @@ class UnblockState(InformedProblemState):
             stringRep += (str(block.getNum()) + " " +
                              str(block.getCoords()) + " ")
         return stringRep
+    
     def illegal(self):
         """
         Checks if this current state is illegal in the context of the puzzle
@@ -71,6 +72,7 @@ class UnblockState(InformedProblemState):
                     if y != 2 or x < 0:
                         return 1
             occupiedSpaces.append(coordList)
+        print("Not illegal: ", occupiedSpaces)
         return 0
                    
     def equals(self, state):
