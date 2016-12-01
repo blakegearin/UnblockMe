@@ -21,17 +21,18 @@ class Display:
     """
     
     def __init__(self, blocks):
-        #Build a list of block image objects
+        self.window = GraphWin("Unblock Me", window_width, window_height)
+        self.window.setBackground(background_color)
+        
+        #Build a list of block image objects and initially draw them
         self.blocks = blocks
         self.blockImages = []
         for i in range(len(blocks)):
             coords = self.blockCoordsToScreenCoords(blocks[i])
-            self.blockImages.append( Image( Point(coords[0],coords[1]), blocks[i].getImageName() ) )
-           
-
-        self.window = GraphWin("Unblock Me", window_width, window_height)
-        self.window.setBackground(background_color)
-        
+            img = Image( Point(coords[0],coords[1]), blocks[i].getImageName() )
+            self.blockImages.append( img )
+            img.draw(self.window)
+                 
 	# left border
         self.border_left = Rectangle(Point(0, 0), Point(border_width, window_height))
         self.border_left.setFill(border_color)
@@ -57,20 +58,23 @@ class Display:
         self.goal_zone.setFill(background_color)
         self.goal_zone.setOutline(background_color)
         self.goal_zone.draw(self.window)
-
+            
     def drawBlocks(self, newBlocks):
         """
-        Draws/Redraws all of the blocks on the screen
+        Redraws and blocks that have changed position
         """
         for i in range(len(self.blockImages)):
-            #Undraw images
-            self.blockImages[i].undraw()
             #Get both the current and new coordinates to see if there was a change
             coordsOld = self.blockCoordsToScreenCoords(self.blocks[i])
             coordsNew = self.blockCoordsToScreenCoords(newBlocks[i])
-            #Move the images based on the change in coordinates and draw them
-            self.blockImages[i].move(coordsNew[0] - coordsOld[0], coordsNew[1] - coordsOld[1])
-            self.blockImages[i].draw(self.window)
+            changeX = coordsNew[0] - coordsOld[0]
+            changeY = coordsNew[1] - coordsOld[1]
+            if changeX != 0 or changeY != 0:
+                #Position has changed, undraw images
+                self.blockImages[i].undraw()
+                #Move the images based on the change in coordinates and draw them
+                self.blockImages[i].move(changeX, changeY)
+                self.blockImages[i].draw(self.window)
         #Update the blocks to the new blocks
         self.blocks = newBlocks
                 
@@ -88,4 +92,3 @@ class Display:
         newCoords[0] = (border_width + 1) + (newCoords[0] * block_unit) + int(blockWidth/2)
         
         return newCoords
-
