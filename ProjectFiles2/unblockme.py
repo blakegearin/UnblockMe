@@ -65,11 +65,19 @@ class UnblockState(InformedProblemState):
                 size = block.getSize()
                 if block.getNum() != 0:
                     if size == 3:
-                        if x > 5 or x < 0 or y > 5 or y < 0:
-                            return 1
+                        if block.getOrientation() == "h":
+                            if x > 3 or x < 0 or y > 5 or y < 0:
+                                return 1
+                        elif block.getOrientation == "v":
+                            if x > 5 or x < 0 or y > 3 or y < 0:
+                                return 1
                     elif size == 2:
-                        if x > 5 or x < 0 or y > 5 or y < 0:
-                            return 1
+                        if block.getOrientation() == "h":
+                            if x > 4 or x < 0 or y > 5 or y < 0:
+                                return 1
+                        elif block.getOrientation == "v":
+                            if x > 5 or x < 0 or y > 4 or y < 0:
+                                return 1
                 else:
                     if y != 2:
                         return 1
@@ -202,4 +210,5 @@ display.drawBlocks()
                  
 # Initiates the informed search towards the goal state
 InformedSearchUnblock(UnblockState(blockList))
+
 
