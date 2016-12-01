@@ -124,7 +124,8 @@ class UnblockState(InformedProblemState):
 
         
         for blockInd in range(0, len(self.blockList)):
-            for n in range(-self.boardSize, self.boardSize, 1):
+            #Maximum amount moved is 4
+            for n in range(-4, 4):
                 tempBlockList = []
                 for block2 in self.blockList:
                     tempBlockList.append(block2.copy())
