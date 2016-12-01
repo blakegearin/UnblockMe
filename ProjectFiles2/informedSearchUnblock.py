@@ -50,7 +50,6 @@ class InformedSearchUnblock(Search):
             
             # Checks if the target block is in the exit
             currentState = current.state
-            print(currentState.targetInd)
             targetBlock = currentState.blockList[currentState.targetInd]
             coordList = targetBlock.getCoords()
             if ((targetBlock.getNum == 1)
