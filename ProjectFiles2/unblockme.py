@@ -5,7 +5,6 @@
 
 from informedSearchUnblock import *
 from block import *
-from copy import *
 from display import *
 
 class UnblockState(InformedProblemState):
@@ -28,6 +27,11 @@ class UnblockState(InformedProblemState):
         Required method for use with the Search class.
         Returns a string representation of the state.
         """
+        stringRep = ""
+        for block in self.blockList:
+            stringRep += (str(block.getNum()) + " " +
+                             str(block.getCoords()) + " ")
+        return stringRep
     def illegal(self):
         """
         Checks if this current state is illegal in the context of the puzzle
@@ -70,8 +74,8 @@ class UnblockState(InformedProblemState):
                     if y != 2:
                         return 1
             occupiedSpaces.append(coordList)
-        return false
-                    
+        return 0
+                   
     def equals(self, state):
         """
         Required method for use with the Search class.
@@ -88,10 +92,10 @@ class UnblockState(InformedProblemState):
             block1 = blockList[n]
             block2 = comparedBlockList[n]
 
-            if (block1.getNum() != block2.getNum()):
-                return false
-        return true
-
+            if ((block1.getNum() == block2.getNum()) and
+                 block1.getCoords() == block2.getCoords()):
+                return true
+            return false
         
     ## A* dist search    
     def heuristic(self):
@@ -100,26 +104,14 @@ class UnblockState(InformedProblemState):
         state. This heuristic checks how many blocks are in between the
         target block and the exit.
         """
-##        interferingBlocks = 0
-##        targetX,targetY = self.blockList[0].getCoords()
-##        for block in self.blockList:
-##            x,y = block.getCoords()
-##            if block.getNum != 0:
-##                if (y == 2) and (x > (targetX + 1)):
-##                    interferingBlocks += 1
-##        return interferingBlocks
-        interference = 0
+        interferingBlocks = 0
         targetX,targetY = self.blockList[0].getCoords()
         for block in self.blockList:
             x,y = block.getCoords()
             if block.getNum != 0:
                 if (y == 2) and (x > (targetX + 1)):
-                    size = block.getSize()
-                    if size == 2:
-                        interference += 2
-                    elif size == 3:
-                        interference += 3
-        return interference
+                    interferingBlocks += 1
+        return interferingBlocks
 
     def applyOperators(self):
         """
@@ -128,10 +120,13 @@ class UnblockState(InformedProblemState):
         state, some of which may be illegal.  
         """
         possibleStates = []
+
         
         for block in self.blockList:
             for n in range(-self.boardSize, self.boardSize, 1):
-                tempBlockList = deepcopy(self.blockList)
+                tempBlockList = []
+                for block in self.blockList:
+                    tempBlockList.append(block.copy())
                 block.possibleMove(n, tempBlockList)
                 possibleStates.append(UnblockState(tempBlockList))
 
@@ -174,40 +169,37 @@ for row in range(probSize):
                 if int(probState[row][column + 1]) == checkBlock:
                     if ((column + 2 < probSize) and
                         int(probState[row][column + 2]) == checkBlock):
-                        newBlock = Block(checkBlock, row, column, 3, "h")
+                        newBlock = Block(checkBlock, column, row, 3, "h")
                         isHorizontal = 1
                         blockList.append(newBlock)
-                        print("h, 3 " + str(checkBlock))
                     else:
 
-                        newBlock = Block(checkBlock, row, column, 2, "h")
+                        newBlock = Block(checkBlock, column, row, 2, "h")
                         # If block is the target block, its index is recorded
                         if checkBlock == 1:
                             UnblockState.targetInd = blockCount
                         isHorizontal = 1
                         blockList.append(newBlock)
-                        print("h, 2 " + str(checkBlock))
             # Only checks for vertical if it is found to not be horizontal
             if (row + 1 < probSize) and (isHorizontal == 0):
                 # Checks if block is 2 or 3 units long
                 if int(probState[row + 1][column]) == checkBlock:
                     if ((row + 2 < probSize) and
                         int(probState[row + 2][column]) == checkBlock):
-                        newBlock = Block(checkBlock, row, column, 3, "v")
+                        newBlock = Block(checkBlock, column, row, 3, "v")
                         blockList.append(newBlock)
-                        print("v, 3 " + str(checkBlock))
                     else:
-                        newBlock = Block(checkBlock, row, column, 2, "v")
+                        newBlock = Block(checkBlock, column, row, 2, "v")
                         blockList.append(newBlock)
-                        print("v, 2 " + str(checkBlock))
 
             blockCount += 1
+
+
+    
 
 display = Display(blockList)
 display.drawBlocks()
                  
 # Initiates the informed search towards the goal state
 InformedSearchUnblock(UnblockState(blockList))
-
-
 
