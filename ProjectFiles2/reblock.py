@@ -74,11 +74,11 @@ class Block:
         block's orientation. Marks the state if a piece has crossed
         over another piece.
         """
+        x = self.x
+        y = self.y
+        size = self.size
         
         if self.orientation == "v":
-            
-            x,y = self.getCoords()
-            size = self.size
             if dist > 0:
                 if size == 2 and y != 4:
                     for block in self.blockList:
@@ -106,8 +106,6 @@ class Block:
             self.setCords()
             
         elif self.orientation == "h":
-            x,y = self.getCoords()
-            size = self.size
             if dist > 0:
                 if size == 2 and x != 4:
                     for block in self.blockList:
