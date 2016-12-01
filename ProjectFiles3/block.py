@@ -63,7 +63,7 @@ class Block:
             self.coords[1] = (self.x+1, self.y)
             if self.size == 3:
                 self.coords[2] = (self.x+2, self.y)
-                
+        
     def copy(self):
         return Block(self.blockNum, self.x, self.y,
                      self.size, self.orientation)
@@ -77,11 +77,8 @@ class Block:
         x = self.x
         y = self.y
         size = self.size
-        
-        if dist == 0:
-            self.collidedPieces = 1
                 
-        elif self.orientation == "v":
+        if self.orientation == "v":
             ## Moving down
             if dist > 0:
                 ## Checks to make sure not touching bottom
@@ -114,9 +111,9 @@ class Block:
                                     ## If equal, set collided
                                     self.collidedPieces = 1
 
-            if self.collidedPieces == 0:
-                self.y += dist
-                self.setCoords()
+##            if self.collidedPieces == 0 and dist != 0:
+            self.y += dist
+            self.setCoords()
             
         elif self.orientation == "h":
             ## Moving rightward
@@ -146,15 +143,15 @@ class Block:
                         for coords in block.getCoords():
                             ## Cycles through proposed new left-most space
                             ##    to current right-most space
-                            for n in range(x + dist + (size - 1), x + (size-1)):
+                            for n in range(x + dist, x + (size-1)):
                                 ## Checks that no two coordinates are equal
                                 if (coords == (n,y)):
                                     ## If equal, set collided
                                     self.collidedPieces = 1
                 
-            if self.collidedPieces == 0:
-                self.x += dist
-                self.setCoords()
+##            if self.collidedPieces == 0 and dist != 0:
+            self.x += dist
+            self.setCoords()
 
     def getNum(self):
         """
@@ -204,3 +201,9 @@ class Block:
         if self.orientation == "v":
             height = self.size
         return height
+
+    def getCollided(self):
+        """
+        Returns the state of collision.
+        """
+        return self.collidedPieces

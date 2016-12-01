@@ -48,7 +48,7 @@ class UnblockState(InformedProblemState):
         # and adds the coordinates it occupies to the list.
         # Then checks if it is has out of bounds.
         for block in self.blockList:
-            if block.collidedPieces == 1:
+            if block.getCollided() != 0:
                 return 1
             coordList = block.getCoords()
             for coords in coordList:
@@ -65,8 +65,8 @@ class UnblockState(InformedProblemState):
                 if block.getNum() != 0:
                     if x > 5 or x < 0 or y > 5 or y < 0:
                         return 1
-                    if x > 5 or x < 0 or y > 5 or y < 0:
-                         return 1
+##                    if x > 5 or x < 0 or y > 5 or y < 0:
+##                        return 1
                 else:
                     if y != 2 or x < 0:
                         return 1
