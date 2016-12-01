@@ -6,6 +6,7 @@
 from informedSearchUnblock import *
 from block import *
 from copy import *
+from display import *
 
 class UnblockState(InformedProblemState):
     """
@@ -189,8 +190,12 @@ for row in range(probSize):
                         print("v, 2 " + str(checkBlock))
 
             blockCount += 1
+
+display = Display(blockList)
+display.drawBlocks()
                  
 # Initiates the informed search towards the goal state
 InformedSearchUnblock(UnblockState(blockList))
+
 
 
