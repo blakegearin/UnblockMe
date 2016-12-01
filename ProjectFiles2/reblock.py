@@ -51,6 +51,19 @@ class Block:
         """
         Returns a string representation of the block.
         """
+        return (str(self.blockNum) + " " + str(self.coords))
+    def setCoords(self):
+
+        self.coords[0] = (self.x, self.y)
+        if self.orientation == "v":
+            self.coords[1] = (self.x,self.y+1)
+            if self.size == 3:
+                self.coords[2] = (self.x,self.y+2)
+        elif self.orientation == "h":
+            self.coords[1] = (self.x+1, self.y)
+            if self.size == 3:
+                self.coords[2] = (self.x+2, self.y)
+                
     def copy(self):
         return Block(self.blockNum, self.x, self.y,
                      self.size, self.orientation)
@@ -62,23 +75,8 @@ class Block:
         over another piece.
         """
         
-##        if self.orientation == "v":
-##            for block in blockList:
-##                if dist >= 0:
-##                    for n in range(dist):
-##                        for coords in self.getCoords():
-##                            if ((coords[0], coords[1] + n) in
-##                                block.getCoords()) and (block.getNum() !=
-##                                                       self.getNum()):
-##                                self.collidedPieces = 1
-##                else:
-##                    for n in range(0, dist, -1):
-##                        for coords in self.getCoords():
-##                            if ((coords[0], coords[1] +n) in
-##                                block.getCoords()) and (block.getNum() !=
-##                                                        self.getNum()):
-##                                self.collidedPieces = 1
         if self.orientation == "v":
+            
             x,y = self.getCoords()
             size = self.size
             if dist > 0:
@@ -87,21 +85,21 @@ class Block:
                         for cords in block.getCoords():
                             if block.getNum() != self.getNum():
                                 for n in range(y + size, y + dist + (size - 1)):
-                                    if cords == x,n:
+                                    if (cords == (x,n)):
                                         self.collidedPieces = 1
                 elif size == 3 and y != 3:
                         for block in self.blockList:
                             for cords in block.getCoords():
                                 if block.getNum() != self.getNum():
                                     for n in range(y + size, y + dist + (size - 1)):
-                                        if cords == x,n:
+                                        if (cords == (x,n)):
                                             self.collidedPieces = 1
             elif dist < 0 and y != 0:
                 for block in self.blockList:
                     for cords in block.getCoords():
                         if block.getNum() != self.getNum():
                             for n in range(y + dist, y - 1):
-                                if cords == x,n:
+                                if (cords == (x,n)):
                                     self.collidedPieces = 1
                 
             self.y += dist
@@ -116,21 +114,21 @@ class Block:
                         for cords in block.getCoords():
                             if block.getNum() != self.getNum():
                                 for n in range(x + size, x + dist + (size-1)):
-                                    if cords == n,y:
+                                    if (cords == (n,y)):
                                         self.collidedPieces = 1
                 elif size == 3 and x != 3:
                     for block in self.blockList:
                         for cords in block.getCoords():
                             if block.getNum() != self.getNum():
                                 for n in range(x + size, x + dist + (size-1)):
-                                    if cords == n,y:
+                                    if (cords == (n,y)):
                                         self.collidedPieces = 1
             elif dist < 0 and x != 0:
                 for block in self.blockList:
                     for cords in block.getCoords():
                         if block.getNum() != self.getNum():
                             for n in range(y + dist, y - 1):
-                                if cords == n,y:
+                                if (cords == (n,y)):
                                     self.collidedPieces = 1
                 
             self.x += dist
@@ -184,4 +182,4 @@ class Block:
         if self.orientation == "v":
             height = self.size
         return height
-        
+
