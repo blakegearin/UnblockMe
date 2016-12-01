@@ -46,6 +46,7 @@ class InformedSearchUnblock(Search):
     def execute(self):
         while not self.q.empty():
             current = self.q.dequeue()
+            #print(str(current))
             self.expansions += 1
             
             # Checks if the target block is in the exit
@@ -80,4 +81,3 @@ class InformedProblemState(ProblemState):
         cost of reaching the goal from this state.
         """
         abstract()
-
