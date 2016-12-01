@@ -25,7 +25,7 @@ class Display:
         self.blockImages = []
         for i in range(len(blocks)):
             coords = self.blockCoordsToScreenCoords(blocks[i])
-            self.blockImages.append( Image( Point(coords[1],coords[0]), blocks[i].getImageName() ) )
+            self.blockImages.append( Image( Point(coords[0],coords[1]), blocks[i].getImageName() ) )
            
 
         self.window = GraphWin("Unblock Me", window_width, window_height)
@@ -75,8 +75,8 @@ class Display:
         blockHeight = block.getHeight() * block_unit
 
         #Y position
-        newCoords[0] = (border_width + 1) +(newCoords[0] * block_unit) + int(blockHeight/2)
+        newCoords[1] = (border_width + 1) +(newCoords[1] * block_unit) + int(blockHeight/2)
         #X Position
-        newCoords[1] = (border_width + 1) + (newCoords[1] * block_unit) + int(blockWidth/2)
+        newCoords[0] = (border_width + 1) + (newCoords[0] * block_unit) + int(blockWidth/2)
         
         return newCoords
