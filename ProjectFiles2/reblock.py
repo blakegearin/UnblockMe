@@ -271,12 +271,12 @@ class Block:
                                     if (coords == (x,n)):
                                         self.collidedPieces = 1
                 elif size == 3 and y != 3:
-                        for block in blockList:
-                            for coords in block.getCoords():
-                                if block.getNum() != self.getNum():
-                                    for n in range(y + size, y + dist + (size - 1)):
-                                        if (coords == (x,n)):
-                                            self.collidedPieces = 1
+                    for block in blockList:
+                        for coords in block.getCoords():
+                            if block.getNum() != self.getNum():
+                                for n in range(y + size, y + dist + (size - 1)):
+                                    if (coords == (x,n)):
+                                        self.collidedPieces = 1
             elif dist < 0 and y != 0:
                 for block in blockList:
                     for coords in block.getCoords():
