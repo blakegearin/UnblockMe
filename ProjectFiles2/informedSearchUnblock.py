@@ -51,10 +51,14 @@ class InformedSearchUnblock(Search):
             
             # Checks if the target block is in the exit
             currentState = current.state
+            #if self.expansions % 1000 == 0:
+            print("Checking State " + str(self.expansions))
             targetBlock = currentState.blockList[currentState.targetInd]
             coordList = targetBlock.getCoords()
-            if ((targetBlock.getNum == 1)
-                and ((2,6) in coordList) and ((2,7) in coordList)):
+            print("coordz: " + str(coordList))
+            if ((targetBlock.getNum() == 1)
+                and ((4,2) in coordList) and ((5,2) in coordList)):
+                print("test")
                 return current
             # Goal state not reached, push new nodes to pq
             else:
