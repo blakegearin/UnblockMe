@@ -205,3 +205,4 @@ display.drawBlocks()
 # Initiates the informed search towards the goal state
 InformedSearchUnblock(UnblockState(blockList))
 
+
