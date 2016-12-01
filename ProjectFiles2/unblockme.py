@@ -124,7 +124,8 @@ class UnblockState(InformedProblemState):
 
         
         for blockInd in range(0, len(self.blockList)):
-            for n in range(-4, 5, 1):
+            #Maximum amount moved is 4
+            for n in range(-4, 4):
                 tempBlockList = []
                 for block2 in self.blockList:
                     tempBlockList.append(block2.copy())
@@ -204,3 +205,8 @@ display.drawBlocks()
                  
 # Initiates the informed search towards the goal state
 InformedSearchUnblock(UnblockState(blockList))
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> parent of 8c36a67... Update unblockme.py
