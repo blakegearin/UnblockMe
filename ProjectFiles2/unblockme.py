@@ -102,12 +102,16 @@ class UnblockState(InformedProblemState):
         target block and the exit.
         """
         interferingBlocks = 0
-        targetX,targetY = self.blockList[self.targetInd].getCoords()
+        targetCoords = self.blockList[self.targetInd].getCoords()
+        targetRoot = targetCoords[0]
+        targetX = targetRoot[0]
+        targetY = targetRoot[1]
         for block in self.blockList:
-            x,y = block.getCoords()
-            if block.getNum != 0:
-                if (y == 2) and (x > (targetX + 1)):
-                    interferingBlocks += 1
+            blockCoords = block.getCoords()
+            for coords in blockCoords:
+                if block.getNum != 0:
+                    if (coords[1] == 2) and (coords[0] > (targetX + 1)):
+                        interferingBlocks += 1
         return interferingBlocks
 
     def applyOperators(self):
@@ -200,5 +204,4 @@ display.drawBlocks()
                  
 # Initiates the informed search towards the goal state
 InformedSearchUnblock(UnblockState(blockList))
-
 
