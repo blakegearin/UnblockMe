@@ -55,6 +55,8 @@ class UnblockState(InformedProblemState):
             for coords in coordList:
                 if coords in occupiedSpaces:
                     return 1
+                else:
+                    occupiedSpaces.append(coords)
 
                 x = coords[0]
                 y = coords[1]
@@ -66,13 +68,9 @@ class UnblockState(InformedProblemState):
                 if block.getNum() != 0:
                     if x > 5 or x < 0 or y > 5 or y < 0:
                         return 1
-##                    if x > 5 or x < 0 or y > 5 or y < 0:
-##                        return 1
                 else:
                     if y != 2 or x < 0:
                         return 1
-            occupiedSpaces.append(coordList)
-        print("Not illegal: ", occupiedSpaces)
         return 0
                    
     def equals(self, state):
