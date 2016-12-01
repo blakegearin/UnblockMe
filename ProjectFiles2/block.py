@@ -3,6 +3,8 @@
 ### File tile.py
 ### The tile object that is manipulated in the unblock me style puzzle
 
+from display import *
+
 class Block:
     """
     The basic play object of the puzzle. Can only move in the direction
@@ -13,15 +15,34 @@ class Block:
         self.blockNum = blockNum
         self.x = x
         self.y = y
+        self.size = size
         self.orientation = orientation
+
+        #Get the file name for the image
+        self.imageName = "images/"
+        if size == 3:
+             self.imageName += "3"
+        elif size == 2:
+             self.imageName += "2"
+        
         if orientation == "v":
             self.coords = [(x,y),(x,y+1)]
             if size == 3:
                 self.coords.append((x,y+2))
+            #Add to imageName
+            self.imageName += "_vert"
         elif orientation == "h":
             self.coords = [(x,y),(x+1,y)]
             if size == 3:
                 self.coords.append((x+2,y))
+            #Add to imageName
+            self.imageName += "_hor"
+
+         #Check if this is the red block for the image name
+        if blockNum == 1:
+            self.imageName += "_red"
+        #Add the file extension for the image name
+        self.imageName += ".png"
             
         self.boardSize = 6
         self.collidedPieces = 0
@@ -102,3 +123,29 @@ class Block:
         Returns the orientation of the block.
         """
         return self.orientation
+
+    def getImageName(self):
+        """
+        Returns the image name string used by the block.  This is the file path to the image.
+        """
+        return self.imageName
+
+    def getWidth(self):
+        """
+        Returns the width of the block.
+        """
+        width = 1
+        if self.orientation == "h":
+            width = self.size
+        return width
+    
+    def getHeight(self):
+        """
+        Returns the height of the block.
+        """
+        height = 1
+        if self.orientation == "v":
+            height = self.size
+        return height
+        
+
