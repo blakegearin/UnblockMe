@@ -78,59 +78,72 @@ class Block:
         y = self.y
         size = self.size
         
-        if self.orientation == "v":
+        if dist == 0:
+                self.collidedPieces = 1
+                
+        elif self.orientation == "v":
+            ## Moving down
             if dist > 0:
+                #Checks to make sure not touching bottom
                 if size == 2 and y != 4:
                     for block in blockList:
                         for coords in block.getCoords():
                             if block.getNum() != self.getNum():
-                                for n in range(y + size, y + dist + (size - 1)):
+                                for n in range(y, y + dist + (size - 1)):
                                     if (coords == (x,n)):
                                         self.collidedPieces = 1
+                #Checks to make sure not touching bottom
                 elif size == 3 and y != 3:
                     for block in blockList:
                         for coords in block.getCoords():
                             if block.getNum() != self.getNum():
-                                for n in range(y + size, y + dist + (size - 1)):
+                                for n in range(y, y + dist + (size - 1)):
                                     if (coords == (x,n)):
                                         self.collidedPieces = 1
+            ## Moving up, checks to make sure not on top row
             elif dist < 0 and y != 0:
                 for block in blockList:
                     for coords in block.getCoords():
                         if block.getNum() != self.getNum():
-                            for n in range(y + dist, y - 1):
+                            for n in range(y + dist, y + (size-1)):
                                 if (coords == (x,n)):
                                     self.collidedPieces = 1
                 
-            self.y += dist
-            self.setCoords()
+            if self.collidedPieces == 0:
+                self.y += dist
+                self.setCoords()
             
         elif self.orientation == "h":
+            ## Moving rightward
             if dist > 0:
+                ## Checks to make sure not on right-most column
                 if size == 2 and x != 4:
                     for block in blockList:
                         for coords in block.getCoords():
                             if block.getNum() != self.getNum():
-                                for n in range(x + size, x + dist + (size-1)):
+                                for n in range(x, x + dist + (size-1)):
                                     if (coords == (n,y)):
                                         self.collidedPieces = 1
+                ## Checks to make sure not on right-most column
                 elif size == 3 and x != 3:
                     for block in blockList:
                         for coords in block.getCoords():
                             if block.getNum() != self.getNum():
-                                for n in range(x + size, x + dist + (size-1)):
+                                for n in range(x, x + dist + (size-1)):
                                     if (coords == (n,y)):
                                         self.collidedPieces = 1
+            ## Moving leftward, checks to make sure not on left-most column
             elif dist < 0 and x != 0:
                 for block in blockList:
                     for coords in block.getCoords():
                         if block.getNum() != self.getNum():
-                            for n in range(y + dist, y - 1):
+                            for n in range(x + dist, x + (size-1)):
                                 if (coords == (n,y)):
                                     self.collidedPieces = 1
                 
-            self.x += dist
-            self.setCoords()
+            if self.collidedPieces == 0:
+                self.x += dist
+                self.setCoords()
 
     def getNum(self):
         """
