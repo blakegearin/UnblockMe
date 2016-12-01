@@ -15,7 +15,7 @@ class UnblockState(InformedProblemState):
     that they are oriented. In other words, vertical blocks can only move
     vertically, and horizontal blocks can only move horizontally.
     The target block is always 2 tiles long, horizontal and designated
-    with the number 1, with the exit located at (2,6).
+    with the number 1h, with the exit located at (2,6).
     """
     # List index of target block, static
     targetInd = None
@@ -62,22 +62,11 @@ class UnblockState(InformedProblemState):
             # to be off the board, so it is not taken into consideration
             # when checking for horizontal bounds.
             
-                size = block.getSize()
                 if block.getNum() != 0:
-                    if size == 3:
-                        if block.getOrientation() == "h":
-                            if x > 3 or x < 0 or y > 5 or y < 0:
-                                return 1
-                        elif block.getOrientation == "v":
-                            if x > 5 or x < 0 or y > 3 or y < 0:
-                                return 1
-                    elif size == 2:
-                        if block.getOrientation() == "h":
-                            if x > 4 or x < 0 or y > 5 or y < 0:
-                                return 1
-                        elif block.getOrientation == "v":
-                            if x > 5 or x < 0 or y > 4 or y < 0:
-                                return 1
+                    if x > 5 or x < 0 or y > 5 or y < 0:
+                        return 1
+                    if x > 5 or x < 0 or y > 5 or y < 0:
+                         return 1
                 else:
                     if y != 2 or x < 0:
                         return 1
@@ -210,5 +199,4 @@ display.drawBlocks()
                  
 # Initiates the informed search towards the goal state
 InformedSearchUnblock(UnblockState(blockList))
-
 
