@@ -46,12 +46,13 @@ class Block:
             
         self.boardSize = 6
         self.collidedPieces = 0
+
     def __str__(self):
         """
         Returns a string representation of the block.
         """
-    def __deepcopy__(self):
-        return Block(self.blockNum, self.x, self,y,
+    def copy(self):
+        return Block(self.blockNum, self.x, self.y,
                      self.size, self.orientation)
         
     def possibleMove(self, dist, blockList):
@@ -109,7 +110,7 @@ class Block:
         """
         Returns the x and y coordinates of the block.
         """
-        print ("coords: " + str(self.coords))
+        
         return self.coords
 
     def getSize(self):
@@ -148,4 +149,3 @@ class Block:
             height = self.size
         return height
         
-
