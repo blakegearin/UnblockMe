@@ -15,7 +15,7 @@ class UnblockState(InformedProblemState):
     that they are oriented. In other words, vertical blocks can only move
     vertically, and horizontal blocks can only move horizontally.
     The target block is always 2 tiles long, horizontal and designated
-    with the number 1h, with the exit located at (2,6).
+    with the number 1, with the exit located at (2,6).
     """
     # List index of target block, static
     targetInd = None
