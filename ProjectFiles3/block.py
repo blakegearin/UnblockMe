@@ -84,31 +84,36 @@ class Block:
         elif self.orientation == "v":
             ## Moving down
             if dist > 0:
-                #Checks to make sure not touching bottom
-                if size == 2 and y != 4:
+                ## Checks to make sure not touching bottom
+                if (size == 2 and y != 4) or (size == 3 and y != 3):
+                    ## Cycles through every block on board
                     for block in blockList:
-                        for coords in block.getCoords():
-                            if block.getNum() != self.getNum():
+                        ## Eliminates itself if encountered
+                        if block.getNum() != self.getNum():
+                            ## Cycles through every coordinate of each block
+                            for coords in block.getCoords():
+                                ## Cycles through current top space to
+                                ##    proposed new bottom space
                                 for n in range(y, y + dist + (size - 1)):
-                                    if (coords == (x,n)):
-                                        self.collidedPieces = 1
-                #Checks to make sure not touching bottom
-                elif size == 3 and y != 3:
-                    for block in blockList:
-                        for coords in block.getCoords():
-                            if block.getNum() != self.getNum():
-                                for n in range(y, y + dist + (size - 1)):
+                                    ## Checks that no two coordinates are equal
                                     if (coords == (x,n)):
                                         self.collidedPieces = 1
             ## Moving up, checks to make sure not on top row
             elif dist < 0 and y != 0:
+                ## Cycles through every block on board
                 for block in blockList:
-                    for coords in block.getCoords():
-                        if block.getNum() != self.getNum():
+                    ## Eliminates itself if encountered
+                    if block.getNum() != self.getNum():
+                        ## Cycles through every coordinate of each block
+                        for coords in block.getCoords():
+                            ## Cycles through proposed new top space
+                            ##    to current bottom space
                             for n in range(y + dist, y + (size-1)):
+                                ## Checks that no two coordinates are equal
                                 if (coords == (x,n)):
+                                    ## If equal, set collided
                                     self.collidedPieces = 1
-                
+
             if self.collidedPieces == 0:
                 self.y += dist
                 self.setCoords()
@@ -117,28 +122,34 @@ class Block:
             ## Moving rightward
             if dist > 0:
                 ## Checks to make sure not on right-most column
-                if size == 2 and x != 4:
+                if (size == 2 and x != 4) or (size == 3 and x != 3):
+                    ## Cycles through every block on board
                     for block in blockList:
-                        for coords in block.getCoords():
-                            if block.getNum() != self.getNum():
+                        ## Eliminates itself if encountered
+                        if block.getNum() != self.getNum():
+                            ## Cycles through every coordinate of each block
+                            for coords in block.getCoords():
+                                ## Cycles through current left-most space
+                                ##    to proposed new right-most space
                                 for n in range(x, x + dist + (size-1)):
+                                    ## Checks that no two coordinates are equal
                                     if (coords == (n,y)):
-                                        self.collidedPieces = 1
-                ## Checks to make sure not on right-most column
-                elif size == 3 and x != 3:
-                    for block in blockList:
-                        for coords in block.getCoords():
-                            if block.getNum() != self.getNum():
-                                for n in range(x, x + dist + (size-1)):
-                                    if (coords == (n,y)):
+                                        ## If equal, set collided
                                         self.collidedPieces = 1
             ## Moving leftward, checks to make sure not on left-most column
             elif dist < 0 and x != 0:
+                ## Cycles through every block on board
                 for block in blockList:
-                    for coords in block.getCoords():
-                        if block.getNum() != self.getNum():
-                            for n in range(x + dist, x + (size-1)):
+                    ## Eliminates itself if encountered
+                    if block.getNum() != self.getNum():
+                        ## Cycles through every coordinate of each block
+                        for coords in block.getCoords():
+                            ## Cycles through proposed new left-most space
+                            ##    to current right-most space
+                            for n in range(x + dist + (size - 1), x + (size-1)):
+                                ## Checks that no two coordinates are equal
                                 if (coords == (n,y)):
+                                    ## If equal, set collided
                                     self.collidedPieces = 1
                 
             if self.collidedPieces == 0:
