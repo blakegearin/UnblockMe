@@ -79,7 +79,7 @@ class Block:
         size = self.size
         
         if dist == 0:
-                self.collidedPieces = 1
+            self.collidedPieces = 1
                 
         elif self.orientation == "v":
             ## Moving down
