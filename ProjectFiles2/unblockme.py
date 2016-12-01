@@ -79,7 +79,7 @@ class UnblockState(InformedProblemState):
                             if x > 5 or x < 0 or y > 4 or y < 0:
                                 return 1
                 else:
-                    if y != 2:
+                    if y != 2 or x < 0:
                         return 1
             occupiedSpaces.append(coordList)
         return 0
