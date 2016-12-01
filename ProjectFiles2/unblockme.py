@@ -124,7 +124,7 @@ class UnblockState(InformedProblemState):
 
         
         for blockInd in range(0, len(self.blockList)):
-            for n in range(-4, 5, 1):
+            for n in range(-self.boardSize, self.boardSize, 1):
                 tempBlockList = []
                 for block2 in self.blockList:
                     tempBlockList.append(block2.copy())
@@ -195,12 +195,9 @@ for row in range(probSize):
                         blockList.append(newBlock)
 
             blockCount += 1
-
-
-    
-
+            
 display = Display(blockList)
-display.drawBlocks()
+display.drawBlocks(blockList)
                  
 # Initiates the informed search towards the goal state
-InformedSearchUnblock(UnblockState(blockList))
+InformedSearchUnblock(UnblockState(blockList), display)
