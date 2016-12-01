@@ -7,6 +7,8 @@
 # This is a global variable that is used to avoid revisiting repeated
 # states.  It needs to be reset to an empty dictionary each time
 # a search is run.
+from display import *
+
 VisitedStates = {}
 
 class Queue:
@@ -110,6 +112,8 @@ class Search:
     def showPath(self, node):
         path = self.buildPath(node)        
         for current in path:
+            d = Display(current.state.blockList)
+            d.drawBlocks()
             print( current.state)
         print("Goal reached in", current.depth, "steps")
     def buildPath(self, node):
@@ -152,3 +156,4 @@ class ProblemState:
         state.
         """
         abstract()
+
