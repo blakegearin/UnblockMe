@@ -100,14 +100,26 @@ class UnblockState(InformedProblemState):
         state. This heuristic checks how many blocks are in between the
         target block and the exit.
         """
-        interferingBlocks = 0
+##        interferingBlocks = 0
+##        targetX,targetY = self.blockList[0].getCoords()
+##        for block in self.blockList:
+##            x,y = block.getCoords()
+##            if block.getNum != 0:
+##                if (y == 2) and (x > (targetX + 1)):
+##                    interferingBlocks += 1
+##        return interferingBlocks
+        interference = 0
         targetX,targetY = self.blockList[0].getCoords()
         for block in self.blockList:
             x,y = block.getCoords()
             if block.getNum != 0:
                 if (y == 2) and (x > (targetX + 1)):
-                    interferingBlocks += 1
-        return interferingBlocks
+                    size = block.getSize()
+                    if size == 2:
+                        interference += 2
+                    elif size == 3:
+                        interference += 3
+        return interference
 
     def applyOperators(self):
         """
