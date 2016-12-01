@@ -51,6 +51,19 @@ class Block:
         """
         Returns a string representation of the block.
         """
+        return (str(self.blockNum) + " " + str(self.coords))
+    def setCoords(self):
+
+        self.coords[0] = (self.x, self.y)
+        if self.orientation == "v":
+            self.coords[1] = (self.x,self.y+1)
+            if self.size == 3:
+                self.coords[2] = (self.x,self.y+2)
+        elif self.orientation == "h":
+            self.coords[1] = (self.x+1, self.y)
+            if self.size == 3:
+                self.coords[2] = (self.x+2, self.y)
+                
     def copy(self):
         return Block(self.blockNum, self.x, self.y,
                      self.size, self.orientation)
@@ -80,6 +93,7 @@ class Block:
                                 self.collidedPieces = 1
                         
             self.y += dist
+            self.setCoords()
             
         elif self.orientation == "h":
             for block in blockList:
@@ -99,6 +113,7 @@ class Block:
                                 self.collidedPieces = 1
         
             self.x += dist
+            self.setCoords()
 
     def getNum(self):
         """
