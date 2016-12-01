@@ -110,8 +110,6 @@ class Search:
     def showPath(self, node):
         path = self.buildPath(node)        
         for current in path:
-            if current.depth != 0:
-                print("Operator:", current.operator)
             print( current.state)
         print("Goal reached in", current.depth, "steps")
     def buildPath(self, node):
