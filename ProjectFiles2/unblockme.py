@@ -102,7 +102,7 @@ class UnblockState(InformedProblemState):
         target block and the exit.
         """
         interferingBlocks = 0
-        targetX,targetY = self.blockList[0].getCoords()
+        targetX,targetY = self.blockList[self.targetInd].getCoords()
         for block in self.blockList:
             x,y = block.getCoords()
             if block.getNum != 0:
@@ -119,11 +119,12 @@ class UnblockState(InformedProblemState):
         possibleStates = []
 
         
-        for block in self.blockList:
+        for blockInd in range(0, len(self.blockList)):
             for n in range(-self.boardSize, self.boardSize, 1):
                 tempBlockList = []
-                for block in self.blockList:
-                    tempBlockList.append(block.copy())
+                for block2 in self.blockList:
+                    tempBlockList.append(block2.copy())
+                block = tempBlockList[blockInd]
                 block.possibleMove(n, tempBlockList)
                 possibleStates.append(UnblockState(tempBlockList))
 
@@ -199,4 +200,5 @@ display.drawBlocks()
                  
 # Initiates the informed search towards the goal state
 InformedSearchUnblock(UnblockState(blockList))
+
 
