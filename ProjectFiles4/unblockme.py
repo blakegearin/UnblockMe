@@ -7,6 +7,7 @@ from informedSearchUnblock import *
 from block import *
 from display import *
 from tkinter import *
+from tkinter import filedialog
 
 root = Tk()
 root.wm_title("Unblock Me")
@@ -210,7 +211,7 @@ def openFile():
     #Open a file dialog
     root.fileName = filedialog.askopenfilename(initialdir = "/",title = "Select file",filetypes = (("Text files","*.txt"),("All files","*.*")))
 
-    #Abort is no file was selected
+    #Abort if no file selected
     if root.fileName == "":
         return
 
