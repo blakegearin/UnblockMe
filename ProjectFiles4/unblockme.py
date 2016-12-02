@@ -210,6 +210,10 @@ def openFile():
     #Open a file dialog
     root.fileName = filedialog.askopenfilename(initialdir = "/",title = "Select file",filetypes = (("Text files","*.txt"),("All files","*.*")))
 
+    #Abort is no file was selected
+    if root.fileName == "":
+        return
+
     # Gets problem state from input text file.
     with open(root.fileName) as textFile:
         probState = [line.split() for line in textFile]
