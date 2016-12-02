@@ -6,8 +6,17 @@
 from informedSearchUnblock import *
 from block import *
 from display import *
+from tkinter import *
+
+root = Tk()
+root.wm_title("Unblock Me")
+root.resizable(width=False, height=False)
+root.configure(background='white')
+root.fileName = ""
+root.blockList = []
 
 class UnblockState(InformedProblemState):
+
     """
     The unblock me style puzzle: Given a 6x6 grid filled with blocks
     and having one exit, the goal is to get a particular block to the exit.
@@ -72,7 +81,7 @@ class UnblockState(InformedProblemState):
                     if y != 2 or x < 0:
                         return 1
             occupiedSpaces.append(coordList)
-        print("Not illegal: ", occupiedSpaces)
+        #print("Not illegal: ", occupiedSpaces)
         return 0
                    
     def equals(self, state):
@@ -136,74 +145,79 @@ class UnblockState(InformedProblemState):
 
         return possibleStates
 
-# Gets problem state from input text file.
-with open("unblockState.txt") as textFile:
-    probState = [line.split() for line in textFile]
 
-blockCount = 0
-blockList = []
-foundBlocks= []
-probSize = len(probState)
+def openFile():
+    root.fileName = filedialog.askopenfilename(initialdir = "/",title = "Select file",filetypes = (("Text files","*.txt"),("All files","*.*")))
+    # Gets problem state from input text file.
+    with open(root.fileName) as textFile:
+        probState = [line.split() for line in textFile]
 
-"""
-Uncomment for input test
-for n in range(probSize):
-    print("[", end=" ")
-    for m in range(probSize):
-        print(probState[n][m], end=" ")
-    print("]")
-"""
+    blockCount = 0
+    root.blockList = []
+    foundBlocks= []
+    probSize = len(probState)
 
-# Takes the input problem state and creates a list of block objects from it
-for row in range(probSize):
-    for column in range(probSize):
-        isHorizontal = 0
-        newBlock = Block
-        checkBlock = int(probState[row][column])
-        # Checks if the current space is nonempty and, if so, if the
-        # encountered block has not already been added to the list.
-        if checkBlock != 0 and checkBlock not in foundBlocks:
-            foundBlocks.append(checkBlock)
-            # Checks if the new block is horizontal or vertical,
-            # then if it is two or three spaces long, and finally
-            # adds it to the list of blocks.
-            # (Also checks for out of bounds errors first)
-            if (column + 1 < probSize):
-                # Checks if block is 2 or 3 units long
-                if int(probState[row][column + 1]) == checkBlock:
-                    if ((column + 2 < probSize) and
-                        int(probState[row][column + 2]) == checkBlock):
-                        newBlock = Block(checkBlock, column, row, 3, "h")
-                        isHorizontal = 1
-                        blockList.append(newBlock)
-                    else:
+    """
+    Uncomment for input test
+    for n in range(probSize):
+        print("[", end=" ")
+        for m in range(probSize):
+            print(probState[n][m], end=" ")
+        print("]")
+    """
 
-                        newBlock = Block(checkBlock, column, row, 2, "h")
-                        # If block is the target block, its index is recorded
-                        if checkBlock == 1:
-                            UnblockState.targetInd = blockCount
-                        isHorizontal = 1
-                        blockList.append(newBlock)
-            # Only checks for vertical if it is found to not be horizontal
-            if (row + 1 < probSize) and (isHorizontal == 0):
-                # Checks if block is 2 or 3 units long
-                if int(probState[row + 1][column]) == checkBlock:
-                    if ((row + 2 < probSize) and
-                        int(probState[row + 2][column]) == checkBlock):
-                        newBlock = Block(checkBlock, column, row, 3, "v")
-                        blockList.append(newBlock)
-                    else:
-                        newBlock = Block(checkBlock, column, row, 2, "v")
-                        blockList.append(newBlock)
+    # Takes the input problem state and creates a list of block objects from it
+    for row in range(probSize):
+        for column in range(probSize):
+            isHorizontal = 0
+            newBlock = Block
+            checkBlock = int(probState[row][column])
+            # Checks if the current space is nonempty and, if so, if the
+            # encountered block has not already been added to the list.
+            if checkBlock != 0 and checkBlock not in foundBlocks:
+                foundBlocks.append(checkBlock)
+                # Checks if the new block is horizontal or vertical,
+                # then if it is two or three spaces long, and finally
+                # adds it to the list of blocks.
+                # (Also checks for out of bounds errors first)
+                if (column + 1 < probSize):
+                    # Checks if block is 2 or 3 units long
+                    if int(probState[row][column + 1]) == checkBlock:
+                        if ((column + 2 < probSize) and
+                            int(probState[row][column + 2]) == checkBlock):
+                            newBlock = Block(checkBlock, column, row, 3, "h")
+                            isHorizontal = 1
+                            root.blockList.append(newBlock)
+                        else:
 
-            blockCount += 1
+                            newBlock = Block(checkBlock, column, row, 2, "h")
+                            # If block is the target block, its index is recorded
+                            if checkBlock == 1:
+                                UnblockState.targetInd = blockCount
+                            isHorizontal = 1
+                            root.blockList.append(newBlock)
+                # Only checks for vertical if it is found to not be horizontal
+                if (row + 1 < probSize) and (isHorizontal == 0):
+                    # Checks if block is 2 or 3 units long
+                    if int(probState[row + 1][column]) == checkBlock:
+                        if ((row + 2 < probSize) and
+                            int(probState[row + 2][column]) == checkBlock):
+                            newBlock = Block(checkBlock, column, row, 3, "v")
+                            root.blockList.append(newBlock)
+                        else:
+                            newBlock = Block(checkBlock, column, row, 2, "v")
+                            root.blockList.append(newBlock)
+
+                blockCount += 1
+
+    root.display = Display(root.blockList)
+
+def runSearch():     
+    # Initiates the informed search towards the goal state
+    InformedSearchUnblock(UnblockState(root.blockList), root.display)
 
 
-    
-
-display = Display(blockList)
-#display.drawBlocks(blockList)
-                 
-# Initiates the informed search towards the goal state
-InformedSearchUnblock(UnblockState(blockList), display)
-
+openButton = Button(root, text="Open", command=openFile, width = 10, height = 2)
+runButton = Button(root, text="Run", command=runSearch, width = 10, height = 2)
+openButton.pack( side = LEFT, padx = 40, pady = 10)
+runButton.pack( side = LEFT, padx = 40, pady = 10 )
