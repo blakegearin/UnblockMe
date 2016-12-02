@@ -24,13 +24,16 @@ class Block:
              self.imageName += "3"
         elif size == 2:
              self.imageName += "2"
-        
+                
+        # Vertical block
         if orientation == "v":
             self.coords = [(x,y),(x,y+1)]
             if size == 3:
                 self.coords.append((x,y+2))
             #Add to imageName
             self.imageName += "_vert"
+            
+        # Horizontal block
         elif orientation == "h":
             self.coords = [(x,y),(x+1,y)]
             if size == 3:
@@ -53,7 +56,9 @@ class Block:
         """
         return (str(self.blockNum) + " " + str(self.coords))
     def setCoords(self):
-
+        """
+        Updates the coordinates that the block occupies.
+        """
         self.coords[0] = (self.x, self.y)
         if self.orientation == "v":
             self.coords[1] = (self.x,self.y+1)
@@ -65,6 +70,9 @@ class Block:
                 self.coords[2] = (self.x+2, self.y)
         
     def copy(self):
+        """
+        Returns a deep copy of the block.
+        """
         return Block(self.blockNum, self.x, self.y,
                      self.size, self.orientation)
         
@@ -154,6 +162,9 @@ class Block:
             self.setCoords()
 
     def moveBlock(self, xAmount, yAmount):
+        """
+        Changes the coordinate of the blocks upper-leftmost tile.
+        """
         self.x += xAmount
         self.y += yAmount
         self.setCoords()
