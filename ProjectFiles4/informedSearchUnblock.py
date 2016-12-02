@@ -1,7 +1,8 @@
 ### Name: Blake Buthod, Ethan Brizendine, Thomas Goodman, & George Wood
 ### Date: 12-9-2016
-### File informedSearchUpdated.py
+### File informedSearchUnblock.py
 ### Implements the informed search for the unblock me puzzle
+### Adapted from code by Dr. Alan Garvey
 
 from pq import *
 from searchUnblock import *
