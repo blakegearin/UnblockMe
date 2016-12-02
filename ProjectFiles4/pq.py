@@ -1,3 +1,5 @@
+# Created by Dr. Alan Garvey
+
 class PriorityQueue:
     """
     Implements a heap-style priority queue with O(lg n) enqueue and
