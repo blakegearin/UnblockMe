@@ -6,8 +6,9 @@
 from informedSearchUnblock import *
 from block import *
 from display import *
-from tkinter import *
 from tkinter import filedialog
+from tkinter import *
+
 
 root = Tk()
 root.wm_title("Unblock Me")
