@@ -1,6 +1,10 @@
-### File: search.py
+### Name: Blake Buthod, Ethan Brizendine, Thomas Goodman, & George Wood
+### Date: 12-9-2016
+### File searchUnblock.py
+### Implements the search for the unblock me puzzle
 ### This file includes four class definitions: Queue, Node,
 ### Search, ProblemState
+### Adapted from code by Dr. Alan Garvey
 
 # from exceptions import *
 
