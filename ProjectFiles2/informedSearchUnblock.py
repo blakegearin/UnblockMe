@@ -32,7 +32,8 @@ class InformedSearchUnblock(Search):
     """
 
     
-    def __init__(self, initialState):
+    def __init__(self, initialState, display):
+        self.display = display
         self.expansions = 0
         self.clearVisitedStates()
         self.q = PriorityQueue()
@@ -41,7 +42,7 @@ class InformedSearchUnblock(Search):
         if solution == None:
             print("Search failed")
         else:
-            self.showPath(solution)
+            self.showPath(solution, display)
             print("Expanded", self.expansions, "nodes during search")
     def execute(self):
         while not self.q.empty():
@@ -51,10 +52,14 @@ class InformedSearchUnblock(Search):
             
             # Checks if the target block is in the exit
             currentState = current.state
+            #if self.expansions % 1000 == 0:
+            print("Checking State " + str(self.expansions))
             targetBlock = currentState.blockList[currentState.targetInd]
             coordList = targetBlock.getCoords()
+            print("coordz: " + str(coordList))
             if ((targetBlock.getNum() == 1)
                 and ((4,2) in coordList) and ((5,2) in coordList)):
+                print("test")
                 return current
             # Goal state not reached, push new nodes to pq
             else:
